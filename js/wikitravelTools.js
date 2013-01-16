@@ -9,7 +9,7 @@ function showWikiInfo (data){
         var latlng = new L.LatLng(article.lat, article.lng);
         geoTools.user=L.marker(latlng);
         geoTools.user.addTo(geoTools.map).bindPopup(article.title);
-        $("#content").append('<iframe src="' + article.mobileurl + '"></iframe>');
+        //$("#content").append('<iframe src="' + article.mobileurl + '"></iframe>');
     }
  }
 
