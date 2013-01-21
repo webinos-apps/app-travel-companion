@@ -14,6 +14,8 @@ function showWikiInfo (data){
  }
 
 function findNearestPOI(){
+       //http://d3js.org/
+    //http://de.wikivoyage.org/w/api.php
     $.ajax({
         url: 'http://api.wikilocation.org/articles?lat=' + geoTools.latitude + '&lng=' + geoTools.longitude +'&limit=8&jsonp=?',
         type: 'GET',
