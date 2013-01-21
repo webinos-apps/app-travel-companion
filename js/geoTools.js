@@ -37,9 +37,8 @@ geoTools.geoBind = function(service, successcb, errorcb) {
 }
 geoTools.loadMap= function(){
     geoTools.map=  L.map('map');
-    L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/71475/256/{z}/{x}/{y}.png', {
-        maxZoom : 18,
-        attribution : 'Map data from &copy OpenStreetMap via CloudMade.'
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(geoTools.map);
     geoTools.map.locate({
         setView : true,
