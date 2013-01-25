@@ -1,7 +1,7 @@
 /* This file uses globals.  Read the globals.js to check which ones */
 
 var geoTools = {};
-geoTools.longitude
+geoTools.position=null;
 geoTools.geoOnce = false;
 geoTools.geoService = null;
 geoTools.mapLoaded = false;
@@ -62,7 +62,7 @@ geoTools.displayLocation=function (position) {
     posdata += "<tr><td>latitude</td><td>" + position.coords.latitude + "</td></tr>";
     posdata += "<tr><td>longitude</td><td>" + position.coords.longitude + "</td></tr>";
     posdata += "<tr><td>altitude</td><td>" + position.coords.altitude + "</td></tr>";
-
+    geoTools.position=position;
     geoTools.latitude=position.coords.latitude;
     geoTools.longitude=position.coords.longitude;
 
@@ -83,7 +83,8 @@ geoTools.displayLocation=function (position) {
     geoTools.user.addTo(geoTools.map).bindPopup("You are within " + Math.round(radius) + " meters from this point").openPopup();
     geoTools.circle.addTo(geoTools.map);
 
-    findNearestPOI();
+    wikiTools.findNearestPOI();
+
 }
 
 geoTools.displayError=function (error) {
