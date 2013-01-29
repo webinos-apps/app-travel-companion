@@ -1,7 +1,7 @@
 /* This file uses globals.  Read the globals.js to check which ones */
 
 var geoTools = {};
-geoTools.longitude
+geoTools.position=null;
 geoTools.geoOnce = false;
 geoTools.geoService = null;
 geoTools.mapLoaded = false;
@@ -37,9 +37,8 @@ geoTools.geoBind = function(service, successcb, errorcb) {
 }
 geoTools.loadMap= function(){
     geoTools.map=  L.map('map');
-    L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/71475/256/{z}/{x}/{y}.png', {
-        maxZoom : 18,
-        attribution : 'Map data from &copy OpenStreetMap via CloudMade.'
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(geoTools.map);
     geoTools.map.locate({
         setView : true,
@@ -63,7 +62,7 @@ geoTools.displayLocation=function (position) {
     posdata += "<tr><td>latitude</td><td>" + position.coords.latitude + "</td></tr>";
     posdata += "<tr><td>longitude</td><td>" + position.coords.longitude + "</td></tr>";
     posdata += "<tr><td>altitude</td><td>" + position.coords.altitude + "</td></tr>";
-
+    geoTools.position=position;
     geoTools.latitude=position.coords.latitude;
     geoTools.longitude=position.coords.longitude;
 
@@ -84,7 +83,8 @@ geoTools.displayLocation=function (position) {
     geoTools.user.addTo(geoTools.map).bindPopup("You are within " + Math.round(radius) + " meters from this point").openPopup();
     geoTools.circle.addTo(geoTools.map);
 
-    findNearestPOI();
+    wikiTools.findNearestPOI();
+
 }
 
 geoTools.displayError=function (error) {
