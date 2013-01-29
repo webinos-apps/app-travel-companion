@@ -5,36 +5,50 @@ twitterTools.searchTwitter = function (article, position) {
     //validate geoinfo is different from the previous  marker
     if (!twitterTools.latlng || twitterTools.latlng
         && (Math.abs(twitterTools.latlng.lat - position.lat) + Math.abs(twitterTools.latlng.lng - position.lng) > 3)) {
-        var searchKeyWord=article.title;
+
         twitterTools.latlng = new L.LatLng(position.lat, position.lng);
-        var geocode = position.lat + "," + position.lng + ",25mi";
+        var marker = new TwitterMarker(article);
+        marker.setLatLng(twitterTools.latlng);
+        marker.addTo(geoTools.map);
+
+
+    }
+}
+
+
+
+
+function TwitterMarker(article) {
+    var searchKeyWord = article.title;
+
+    var geocode = article.lat + "," + article.lng + ",25mi";
+
+    this.on('click', function (e) {
+        //open popup;
 
         $.ajax({
+            context: this,
             url: 'http://search.twitter.com/search.json?q=' + searchKeyWord + '&geocode=' + geocode + '&result_type=recent&rpp=10',
             type: 'GET',
             async: false,
             contentType: "application/json",
             dataType: 'jsonp',
             //jsonpCallback: 'tweet',
-            success: function (data){
-                twitterTools.showTweet(data,article);
+            success: function (data) {
+                this.showTweet(data, article)
             }
         });
 
-    }
+    });
 }
 
-twitterTools.showTweet =function (a,article) {
-
-    var marker = L.marker(twitterTools.latlng);
-    marker.addTo(geoTools.map);
+TwitterMarker.prototype = new L.Marker();
+TwitterMarker.prototype.showTweet = function (a, article) {
+    //e.target._latlng
     var popup = new TwitterPopUp(a.results);
-    marker.on('click', function (e) {
-        //open popup;
-        popup.setLatLng(e.target._latlng)
-            .openOn(geoTools.map);
+    popup.setLatLng(new L.LatLng(article.lat, article.lng));
+    popup.openOn(geoTools.map);
 
-    });
 }
 
 function TwitterPopUp(opt) {
@@ -51,7 +65,7 @@ function TwitterPopUp(opt) {
     }
 }
 
-TwitterPopUp.prototype = new L.popup();
+TwitterPopUp.prototype = new L.popup({offset: new L.Point(1, -35)});
 TwitterPopUp.tweets = [];
 
 
