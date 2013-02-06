@@ -3,8 +3,9 @@ twitterTools.latlng = null;
 
 twitterTools.searchTwitter = function (article, position) {
     //validate geoinfo is different from the previous  marker
+
     if (!twitterTools.latlng || twitterTools.latlng
-        && (Math.abs(twitterTools.latlng.lat - position.lat) + Math.abs(twitterTools.latlng.lng - position.lng) > 3)) {
+        && Math.abs(twitterTools.latlng.lat - article.lat) + Math.abs(twitterTools.latlng.lng - article.lng) > 0.0000005) {
 
         twitterTools.latlng = new L.LatLng(position.lat, position.lng);
         var marker = new TwitterMarker(article);
